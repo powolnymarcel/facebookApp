@@ -1,0 +1,99 @@
+<section class="row" ng-controller="facebookCtrl">
+
+    <div class="col-lg-4 ">
+        <div class="centrage">
+        <h4>{{welcomeMessage}}</h4>
+        <div ng-if="isLoggedIn == true">
+            <a href="{{userInfo.link}}" target="_blank"><img ng-src="{{picture}}" alt=""/></a>
+        </div>
+        <div ng-if="isLoggedIn == false">
+            <button type="button" class="btn btn-material-blue-500" ng-click="login()">Se connecter</button>
+        </div>
+        <div ng-if="isLoggedIn == true">
+            <button type="button" class="btn btn-material-red-500" ng-click="logout()">Se deconnecter</button>
+        </div>
+    </div>
+        <br/>
+        <div class="well" ng-if="isLoggedIn == true">
+            <h4>Info utilisateur:</h4>
+            <ul>
+                <li>Identifiant: <strong>{{userInfo.id}}</strong></li>
+                <li>Prénom: <strong>{{userInfo.first_name}}</strong></li>
+                <li>Nom: <strong>{{userInfo.last_name}}</strong></li>
+                <li>Email: <strong>{{userInfo.email}}</strong> </li>
+                <li>Sexe: <strong>{{userInfo.gender}}</strong></li>
+                <li>Langue: <strong>{{userInfo.locale}}</strong></li>
+                <li>Compte verifié: <strong>{{verificated}}</strong></li>
+            </ul>
+        </div>
+        <br/>
+        <div class="well" ng-if="isLoggedIn == true">
+            <h4 >Permissions de ce site:</h4>
+            <ul>
+                <li ng-repeat="permission in permissions">
+                    {{permission.permission |capitalize}} :
+                    <div style="display:inline-block" ng-if="permission.status == 'granted'"><strong>Autorisé</strong></div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="col-lg-8 ">
+        <div ng-if="isLoggedIn == true">
+            <h3> Bienvenue sur Facebook.</h3>
+            <span data-toggle="snackbar" id="snackbarid" data-content="Merci d'avoir posté"></span>
+            <span data-toggle="snackbar" id="snackbardelete" data-content="Post supprimé"></span>
+            <span data-toggle="snackbar" id="snackbarEdited" data-content="Post edité"></span>
+
+
+            <!--***********************Ajouet 1 POST*******************-->
+            <form ng-submit="postStatus()" ng-hide="ajoutFormSubmit">
+                <div class="form-group">
+                    <textarea ng-model="messageSurfb" data-hint="some hint"  placeholder="Publier status: " name="" id="" cols="30" rows="4" class="form-control floating-label"></textarea>
+                    <button type="submit" class="btn btn-default btn-raised btnEnvoyer">Envoyer</button>
+                </div>
+            </form>
+
+                <!--***********************EDITER LE POST*******************-->
+            <form ng-show="editFormShow" ng-submit="editFormSubmit()">
+                <div class="form-group">
+
+                            <!--***********************POUR LE $PARENT !!! perdu 3H!!!!!
+                            AngularJS will look for that variable in the scope of the directive. It is not there and thus he walks down to $parent.
+                            The variable is present there and the text is inserted into the textarea. When changing the text in the textarea, Angular
+                            does NOT change the parent's variable. Instead it creates a new variable in the directive's scope and thus the original variable is not
+                            updated. If you bind the textarea to the parent's variable, as suggested by Mathew, Angular will always bind to the correct variable and the issue is gone.
+                            *******************-->
+                    <textarea ng-model="$parent.message"  placeholder="Publier status: " id="message" cols="30" rows="4" class="form-control floating-label"></textarea>
+                    <button type="submit" class="btn btn-success">Editer</button>
+                    <button type="button" class="btn btn-warning" ng-click="annulerEditer()">Annuler</button>
+                </div>
+
+            </form>
+
+
+
+
+
+
+            <br/>
+            <br/>
+            <div ng-repeat="post in posts" class="stbody">
+                <div class="stimg">
+                    <img ng-src="{{picture}}" alt=""/>
+                </div>
+                <div class="sttext">
+                    <button class="btn btn-material-red btn-sm pull-right" ng-click="supprimer(post)" >×</button>
+                    <button class="btn btn-material-blue-500 btn-sm pull-right" ng-click="edit(post)" ><span class="glyphicon glyphicon-edit"></span></button>
+                    {{post.message}}
+                    <div class="sttime">{{post.created_time}}</div>
+                </div>
+            </div>
+
+        </div>
+        <div ng-if="isLoggedIn == false">
+            <p>Vous devez vous authentifier pour poster.</p>
+        </div>
+    </div>
+
+</section>
