@@ -84,8 +84,11 @@
                 </div>
                 <div class="sttext">
                     <button class="btn btn-material-red btn-sm pull-right" ng-click="supprimer(post)" >×</button>
-                    <button class="btn btn-material-blue-500 btn-sm pull-right" ng-click="edit(post)" ><span class="glyphicon glyphicon-edit"></span></button>
-                    {{post.message}}
+
+                    <div ng-if="post.message"><button class="btn btn-material-blue-500 btn-sm pull-right" ng-click="edit(post)" ><span class="glyphicon glyphicon-edit"></span></button></div>
+                    {{post.message }}
+                    {{ post.story}}
+
                     <div class="sttime">{{post.created_time}}</div>
                 </div>
             </div>
