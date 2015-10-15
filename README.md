@@ -12,3 +12,6 @@ http://ondego.be/angular/projet4-FBapp/#/view1
 #TODO
 
 Eviter l'affichage des champs si impossibilité de se connecter.
+
+#Si impossibilité de se connecter, résultat ici:
+<img src="http://ondego.be/divers/fbapp.png"/>
